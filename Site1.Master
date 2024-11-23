@@ -1,0 +1,175 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.master.cs" Inherits="SuratDarshan.Site1" %>
+
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title>Musafir</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <link href="DataTable/css.css" rel="stylesheet" />
+    <script src="DataTable/js.js"></script>
+
+    <style>
+        footer {
+            width: 100%;
+        }
+
+        .footer2 {
+            background-color: #000080; /* Navy blue color */
+            color: white;
+            padding: 5px;
+            text-align: center;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px;
+            height: 50px;
+        }
+
+        .nav-link {
+            color: white !important; /* Make sure the color is visible */
+            display: block !important;
+        }
+
+        .dropdown-item {
+            font-size: 14px; /* Ensure dropdown appears correctly */
+            white-space: nowrap;
+            overflow: visible;
+        }
+
+        .dropdown {
+            position: relative; /* Ensure dropdown appears correctly */
+        }
+
+        .dropdown-toggle {
+            padding-right: 80px; /* Ensure dropdown appears correctly */
+        }
+
+        .dropdown-menu {
+            min-width: 600px;
+            display: none;
+        }
+        .active {
+        font-weight: bold;
+        color: #000000;
+    }
+    </style>
+
+    <script>
+        function toggleDropdown() {
+            var dropdown = document.getElementById("profileDropDown");
+            if (dropdown.style.display === "block") {
+                dropdown.style.display = "none"; // Hide dropdown
+            } else {
+                dropdown.style.display = "block"; // Show dropdown
+            }
+        }
+
+        // Optional: Hide dropdown when clicking outside
+        document.addEventListener('click', function (event) {
+            var dropdown = document.getElementById("profileDropDown");
+            var toggle = document.getElementById("dropdownProfile");
+
+            if (!toggle.contains(event.target) && dropdown.style.display === "block") {
+                dropdown.style.display = "none"; // Hide dropdown if clicking outside
+            }
+        });
+    </script>
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg bg-primary fixed-top">
+                <div class="container-fluid">
+                    <h1 class="navbar-brand">Musafir</h1>
+                    <div class="collapse navbar-collapse" id="left_side_nav">
+                        <ul class="nav nav-tab">
+                            <li class="nav-item active">
+                                <asp:LinkButton CssClass="nav-link" ID="About_us" runat="server" OnClick="About_us_Click">About us</asp:LinkButton></li>
+                            <li class="nav-item active">
+                                <asp:LinkButton CssClass="nav-link" ID="Home" runat="server" OnClick="Home_Click">Home</asp:LinkButton></li>
+                        </ul>
+                    </div>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav nav-tab ms-auto">
+                            <li class="nav-item">
+                                <asp:Label CssClass="nav-link" ID="LabelUser" runat="server"></asp:Label>
+                            </li>
+                            <li class="nav-item">
+                                <asp:LinkButton CssClass="nav-link" ID="Sign_up" runat="server" OnClick="Sign_up_Click">Sign Up</asp:LinkButton>
+                            </li>
+                            <li class="nav-item">
+                                <asp:LinkButton CssClass="nav-link" ID="Log_in" runat="server" OnClick="Log_in_Click">Log In</asp:LinkButton>
+                            </li>
+                            <li class="nav-item">
+                                <asp:LinkButton CssClass="nav-link" ID="Log_out" runat="server" Visible="False" OnClick="Log_out_Click">Log Out</asp:LinkButton>
+                            </li>
+                            <!-- Dropdown for Profile -->
+                            <li class="nav-item dropdown">
+                                <asp:PlaceHolder ID="phUserDropdown" runat="server" Visible="false">
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" style="background-color: blue" type="button" id="dropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="toggleDropdown()">Settings</button>
+                                        <div class="dropdown-menu" aria-labelledby="userDropdown" id="profileDropDown">
+                                            <asp:LinkButton CssClass="dropdown-item" ID="Linked_Profile" runat="server" OnClick="Linked_Profile_Click">Profile</asp:LinkButton>
+                                            <asp:LinkButton CssClass="dropdown-item" ID="Booked_Tours" runat="server" OnClick="Booked_Tours_Click">Your Booked Tours</asp:LinkButton>
+                                            <asp:LinkButton CssClass="dropdown-item" ID="Reviews" runat="server" OnClick="Reviews_Click">Give Your Reviews</asp:LinkButton>
+                                            <asp:LinkButton CssClass="dropdown-item" ID="Del" runat="server" OnClick="Del_Click">Delete Account</asp:LinkButton>
+                                            <asp:LinkButton CssClass="dropdown-item" ID="Log_out_user" runat="server" OnClick="Log_out_user_Click">Log Out</asp:LinkButton>
+                                        </div>
+                                    </div>
+                                </asp:PlaceHolder>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+        </div>
+        <br />
+        <br />
+        <br />
+        <br />
+
+        <div>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+
+        <footer class="footer text-center text-lg-start fixed-bottom">
+            <div class="footer2">
+                <asp:LinkButton CssClass="footerlinks" ID="Admin_login" runat="server" OnClick="Admin_login_Click">Admin: login</asp:LinkButton>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <asp:LinkButton CssClass="footerlinks" ID="Tour_Data_Management" runat="server" Visible="False" OnClick="Tour_Data_Management_Click">Tour Data Management</asp:LinkButton>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <asp:LinkButton CssClass="footerlinks" ID="Reservrd_Tour_Data" runat="server" Visible="False" OnClick="Reservrd_Tour_Data_Click">Reserved Tour Data</asp:LinkButton>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <asp:LinkButton CssClass="footerlinks" ID="User_Data_Management" runat="server" Visible="False" OnClick="User_Data_Management_Click">User Data Management</asp:LinkButton>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <asp:LinkButton CssClass="footerlinks" ID="Testimonial" runat="server" Visible="True" OnClick="Testimonial_Click">Musafir Testimonial</asp:LinkButton>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <asp:LinkButton CssClass="footerlinks" ID="Review_Management" runat="server" Visible="False" OnClick="Review_Management_Click">Review Management</asp:LinkButton>
+            </div>
+
+            <!-- Copyright -->
+            <div class="text-center py-0" style="background-color: white;">&copy; 2024 Musafir. All rights reserved.</div>
+        </footer>
+    </form>
+</body>
+</html>
